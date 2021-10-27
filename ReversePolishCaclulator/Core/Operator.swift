@@ -5,6 +5,8 @@ enum Operator: RawRepresentable {
     
     case plus
     case minus
+    case multiplyer(operand: String)
+    case divider(operand: String)
     
     var rawValue: String? {
         switch self {
@@ -14,8 +16,11 @@ enum Operator: RawRepresentable {
         case .plus:
             return "+"
             
-        default:
-            return nil
+        case .multiplyer(let operand):
+            return operand
+            
+        case .divider(let operand):
+            return operand
         }
     }
     
@@ -27,25 +32,43 @@ enum Operator: RawRepresentable {
         case "-":
             self = .minus
             
+        case "*", "x":
+            self = .multiplyer(operand: rawValue!)
+        
+        case "/", ":":
+            self = .divider(operand: rawValue!)
+            
         default:
             return nil
         }
     }
         
-    func calculate<T: Numeric>(lh: T, rh: T) -> T? {
+    func calculate<T: BinaryInteger>(lh: T, rh: T) -> T? {
         switch self {
         case .plus:
             return sum(lh: lh, rh: rh)
         case .minus:
             return minus(lh: lh, rh: rh)
+        case .multiplyer:
+            return multiplyer(lh: lh, rh: rh)
+        case .divider:
+            return divide(lh: lh, rh: rh)
         }
     }
     
-    func sum<T: Numeric>(lh: T, rh: T) -> T {
+    func sum<T: BinaryInteger>(lh: T, rh: T) -> T {
         return lh + rh
     }
     
-    func minus<T: Numeric>(lh: T, rh: T) -> T {
+    func minus<T: BinaryInteger>(lh: T, rh: T) -> T {
         return lh - rh
+    }
+    
+    func multiplyer<T: BinaryInteger>(lh: T, rh: T) -> T {
+        return lh * rh
+    }
+    
+    func divide<T: BinaryInteger>(lh: T, rh: T) -> T {
+        return lh / rh
     }
 }
