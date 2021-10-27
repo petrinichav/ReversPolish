@@ -19,7 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         result = operatorHandler.handle(input: "\(result) 2")
         result = operatorHandler.handle(input: "\(result) 5")
         result = operatorHandler.handle(input: "\(result) -")
-        result = operatorHandler.handle(input: "\(result) /")
+        result = operatorHandler.handle(input: "\(result) +")
         print("\(result)")
         return true
     }
